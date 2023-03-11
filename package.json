@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
     "startDeb": "node --inspect ./src/index.js",
-    "start": "node ./src/index.js",
-    "test": "jest",
-    "test-watchall": "jest --watchAll --detectOpenHandles"
+    "start": "node ./src/index.js"
   },
   "author": "Helmer Villarreal Larios",
   "license": "ISC",
@@ -18,8 +16,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.15.0",
+    "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
+    "moment": "0.0.2",
     "path": "^0.12.7",
-    "sequelize": "^6.29.3"
+    "sequelize": "6.21.0",
+    "tedious": "14.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
   }
 }
