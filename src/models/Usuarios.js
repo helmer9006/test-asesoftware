@@ -1,30 +1,3 @@
-// const { DataTypes } = require("sequelize");
-
-// module.exports = model;
-
-// function model(sequelize) {
-//   const attributes = {
-//     correo: { type: DataTypes.STRING, allowNull: false },
-//     clave: { type: DataTypes.STRING, allowNull: false },
-//     nombre: { type: DataTypes.STRING, allowNull: false },
-//     apellido: { type: DataTypes.STRING, allowNull: false },
-//     perfil: { type: DataTypes.STRING, allowNull: false },
-//   };
-
-//   const options = {
-//     defaultScope: {
-//       // exclude password hash by default
-//       attributes: { exclude: ["clave"] },
-//     },
-//     scopes: {
-//       // include hash with this scope
-//       withHash: { attributes: {} },
-//     },
-//   };
-
-//   return sequelize.define("Usuarios", attributes, options);
-// }
-
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../database/database.js");
 
@@ -55,6 +28,18 @@ exports.Usuarios = sequelize.define(
     correo: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: "created_at",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      field: "updated_at",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
   },
   {

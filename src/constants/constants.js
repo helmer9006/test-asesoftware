@@ -1,4 +1,5 @@
 const dotenv = require("dotenv").config();
+const path = require("path");
 exports.Constants = {
   TYPE_USER: {
     HOSPITAL: "hospital",

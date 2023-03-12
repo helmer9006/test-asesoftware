@@ -1,7 +1,7 @@
 const { Constants } = require("../constants/constants.js");
 const { validationResult } = require("express-validator");
 const { sequelize } = require("./../database/database.js");
-const { Usuarios } = require("../models/Usuarios.js");
+const { Turnos } = require("../models/Turnos");
 const moment = require("moment");
 
 exports.crearTurnos = async (req, res) => {
@@ -31,15 +31,25 @@ exports.crearTurnos = async (req, res) => {
       `sp_crear_turnos '${fecha_inicio}', '${fecha_fin}', ${id_servicio}`
     );
     if (respuesta[0][0] && respuesta[0][0].error) {
-      return res.json({
+      return res.status(400).json({
         status: false,
         response: [],
         msg: respuesta[0][0].error,
       });
     }
-    res.json({
+    const response = respuesta[0].map((item) => {
+      return {
+        id_turno: item.id_turno,
+        id_servicio: item.id_servicio,
+        estado: item.estado,
+        fecha_turno: moment(item.fecha_turno).format("DD/MM/YYYY"),
+        hora_inicio: moment(item.hora_inicio).add(5, "h").format("HH:mm:ss"),
+        hora_fin: moment(item.hora_fin).add(5, "h").format("HH:mm:ss"),
+      };
+    });
+    res.status(200).json({
       status: true,
-      response: respuesta[0],
+      response: response,
       msg: "Turnos creados correctamente.",
     });
   } catch (error) {
@@ -48,5 +58,38 @@ exports.crearTurnos = async (req, res) => {
     res
       .status(500)
       .json({ status: false, response: {}, msg: "Error creando turnos" });
+  }
+};
+
+exports.traerTurno = async (req, res) => {
+  try {
+    let turnos = await Turnos.findAll({});
+    if (turnos.length == 0) {
+      return res.status(404).json({
+        status: false,
+        response: [],
+        msg: "No se encontraron turnos",
+      });
+    }
+    turnos = turnos.map((item) => {
+      return {
+        id_turno: item.id_turno,
+        id_servicio: item.id_servicio,
+        estado: item.estado,
+        fecha_turno: moment(item.fecha_turno).format("DD/MM/YYYY"),
+        hora_inicio: moment(item.hora_inicio).add(5, "h").format("HH:mm:ss"),
+        hora_fin: moment(item.hora_fin).add(5, "h").format("HH:mm:ss"),
+      };
+    });
+    res.status(200).json({
+      status: true,
+      response: turnos,
+      msg: "Turnos encontrados.",
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ status: false, response: {}, msg: "Error consultando turnos" });
   }
 };

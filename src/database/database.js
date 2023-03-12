@@ -1,4 +1,3 @@
-const tedious = require("tedious");
 const { Sequelize } = require("sequelize");
 const { Constants } = require("../constants/constants.js");
 
